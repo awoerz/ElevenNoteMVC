@@ -35,8 +35,6 @@ namespace ElevenNote.WebMVC.Controllers
 
             var service = CreateNoteService();
 
-            service.CreateNote(model);
-
             if(service.CreateNote(model))
             {
                 TempData["SaveResult"] = "Your note was created.";
@@ -54,6 +52,21 @@ namespace ElevenNote.WebMVC.Controllers
             var model = svc.GetNoteById(id);
 
             return View(model);
+        }
+
+        public ActionResult Edit(int id)
+        {
+            var service = CreateNoteService();
+            var detail = service.GetNoteById(id);
+            var model = new NoteEdit
+            {
+                NotedId = detail.NoteId,
+                Title = detail.Title,
+                Content = detail.Content
+            };
+
+            return View(model);
+
         }
 
         private NoteService CreateNoteService()
